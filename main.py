@@ -15,7 +15,9 @@ pygame.display.set_icon(icon)
 elephant = pygame.image.load('elephant.png')
 tiger    = pygame.image.load('tiger.png')
 tittle_text = pygame.image.load('catch_the_elephant.png')
-
+you_suck = pygame.image.load('you_suck.png')
+try_again = pygame.image.load('try_again.png')
+elephant_room = pygame.image.load('elephant_in_the_room.png')
 
 
 
@@ -58,14 +60,14 @@ class Option:
         self.rect = self.rend.get_rect()
         self.rect.topleft = self.pos
 
-options = [Option("START", (230, 200)), Option("PASSWORD", (170, 300))]
+options = [Option("START", (230, 200))]
 running = True
 start   = False
 wait_time = 0.1
 show_tittle = True
 dx,dy = 13,17
 x,y = 300,314
-
+attempts = 0
 while running:
 
     # RGB = Red, Green, Blue
@@ -92,7 +94,17 @@ while running:
                 print(wait_time)
                 if wait_time < 0.001:
                     wait_time = 0
+                    attempts += 1
                     print("game over")
+                    if attempts < 3:
+                        screen.blit(try_again,(0,0))
+                    elif attempts < 5:
+                        screen.blit(you_suck,(0,0))
+                    else:
+                        screen.blit(elephant_room,(0,0))
+                    pygame.display.update()
+                    wait_time = 0.1
+                    show_tittle = False
                     time.sleep(2)
                     start = False
                     
